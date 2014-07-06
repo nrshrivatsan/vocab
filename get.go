@@ -4,7 +4,7 @@ package main
 import (
     "fmt"
     "log"
-    "github.com/PuerkitoBio/goquery"
+    "./goquery"
     "strings"
     "net/http"
     "html/template"
