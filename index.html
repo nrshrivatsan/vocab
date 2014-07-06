@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>    
+    <head>
+            <link href="./static/css/bootstrap.min.css" rel="stylesheet" media="screen">            
+            <title>Vocab - Just what you need</title>
+            <style type="text/css">
+            	.clean{
+            		 font-family: 'Open Sans', sans-serif;
+            		 vertical-align: middle !important;            		 
+            	}                        
+            	.jumbotron{
+            		background: white;
+            	}
+				@font-face {
+				  font-family: 'Open Sans';
+				  font-style: normal;
+				  font-weight: 300;
+				  src: local('Open Sans'), local('OpenSans'), url("./static/fonts/OpenSans.woff") format('woff');
+				}
+
+            	.p{
+            		padding: 1%;
+            	}
+            	.m{
+            		margin: 1%;
+            	}				
+            </style>
+    </head>
+    <body class="clean">        
+		<div class="container">
+	           <div class="header text-center">			      			     
+			        <h2>
+			        	<span> Vocab </span>
+			       		<input type="text" class="input-large m p" id="search-string" placeholder="Enter search string"> 
+			       		<span class=" btn-success p m" id ="search-button" onclick="search();"> Search </span>
+			       		<span class=" btn-info p m" id ="reset-button" onclick="reset();"> Clear </span>
+			       	</h2>
+			    </div>
+			    <div class="container text-center" id="results">
+			    </div>
+			   <footer>
+				    <div class="navbar navbar navbar-fixed-bottom">
+				        <div class="container">
+				            <div class="navbar-collapse collapse" id="footer-body">
+				                <ul class="nav navbar-nav">				                    
+				                    <li><a href="#">About</a></li>
+				                    <li><a href="#">Contact Us</a></li>
+				                </ul>
+				            </div>
+				        </div>
+				    </div>
+				</footer>
+		</div>        
+        <!-- Placed at the end of the document so the pages load faster -->        
+        <script type="text/javascript">
+         function search(){
+         	var q = $("#search-string").val();
+         	// $("#results").html(q);
+            $.get( "/search?q="+q, function( data ) {
+              $( "#results" ).html( data );
+              alert( "Load was performed." );
+            });
+         }
+         function reset(){
+         	$("#results").html("");	
+         	$("#search-string").val("");	
+         	$("#search-string").focus();	
+         }
+        </script>
+        <script type="text/javascript" src="./static/js/jquery.js">
+        </script>
+        <script type="text/javascript" src="./static/js/bootstrap.min.js">
+        </script>                
+    </body>
+
+</html>
