@@ -58,7 +58,13 @@
          	// $("#results").html(q);
             $.get( "/search?q="+q, function( data ) {
               $( "#results" ).html( data );
-              alert( "Load was performed." );
+              var results = "";
+              for (key in data){
+                var div =" <div> <a href='"+data[key]+"' >"+key+" </a></div>"  
+                results+=div;
+              }
+              $( "#results" ).html( results);
+              // alert( "Load was performed." );
             });
          }
          function reset(){

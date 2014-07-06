@@ -13,7 +13,7 @@ import (
 
 const baseUrl string = "http://en.wikipedia.org"
 const searchURLPrefix string = "http://en.wikipedia.org/wiki/"
-
+const selector string = "#mw-content-text p a"
 func main() {
        
     http.HandleFunc("/", viewHandler)    
@@ -28,9 +28,10 @@ func search(w http.ResponseWriter, r *http.Request) {
     fmt.Println(r.URL.Query())
     if r.URL.Query()["q"] != nil && r.URL.Query()["q"][0] != ""{
             queryString := r.URL.Query()["q"][0]
-            selector := "a"
+            
             result :=    scrape(searchURLPrefix+queryString,selector) 
             b,_ := json.Marshal(result)
+            w.Header().Set("Content-Type", "application/json")
             w.Write(b)
         }
 }
