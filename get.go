@@ -14,6 +14,7 @@ import (
 const baseUrl string = "http://en.wikipedia.org"
 const searchURLPrefix string = "http://en.wikipedia.org/wiki/"
 const selector string = "#mw-content-text p a"
+const imageSelector string = "#mw-content-text table.infobox tbody tr td a img"
 func main() {
        
     http.HandleFunc("/", viewHandler)    
@@ -41,10 +42,10 @@ func viewHandler(w http.ResponseWriter, r *http.Request) {
     t.Execute(w,nil)
 }
 
-func scrape(url,selector string) (map[string]string) {
+func scrape(url,selector string) (map[string]interface{}) {
     var doc *goquery.Document
     var e error
-
+    responseMap := make(map[string]interface{})
     if doc, e = goquery.NewDocument(url); e != nil {
         log.Fatal(e)
     }
@@ -62,8 +63,20 @@ func scrape(url,selector string) (map[string]string) {
         }       
     })
 
-    for k,v := range urlMap {
-        fmt.Println(k,"->",v)
-    }
-    return urlMap
+    responseMap["links"] = urlMap;
+
+    
+    doc.Find(imageSelector).Each(func(i int, s *goquery.Selection) {
+        imageLink,_ := s.Attr("src") 
+
+        // fmt.Println(s.Text())
+        if imageLink != "" && responseMap["imageURL"] == nil {            
+            responseMap["imageURL"] = imageLink                        
+        }
+    });
+
+    // for k,v := range urlMap {
+    //     fmt.Println(k,"->",v)
+    // }
+    return responseMap
 }

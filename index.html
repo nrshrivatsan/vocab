@@ -36,8 +36,13 @@
 			       		<span class=" btn-info p m" id ="reset-button" onclick="reset();"> Clear </span>
 			       	</h2>
 			    </div>
-			    <div class="container text-center" id="results">
-			    </div>
+                <div class="container row-fluid" id = "results container">
+                    <div class="container text-center col-md-3" id="img">
+                    </div> 
+                    <div class="container text-center col-md-9" id="results">
+
+                    </div>
+                </div>                            
 			   <footer>
 				    <div class="navbar navbar navbar-fixed-bottom">
 				        <div class="container">
@@ -57,19 +62,24 @@
          	var q = $("#search-string").val();
          	// $("#results").html(q);
             $.get( "/search?q="+q, function( data ) {
-              $( "#results" ).html( data );
+              // $( "#results" ).html( data );
               var results = "";
-              for (key in data){
+              if (data.imageURL){
+                $("#img").html("<img src='"+data.imageURL+"'>");
+              }
+              for (key in data.links){
                 var div =" <div> <a href='"+data[key]+"' >"+key+" </a></div>"  
                 results+=div;
               }
+
               $( "#results" ).html( results);
               // alert( "Load was performed." );
             });
          }
          function reset(){
          	$("#results").html("");	
-         	$("#search-string").val("");	
+         	$("#search-string").val("");
+            $("#img").html("");	
          	$("#search-string").focus();	
          }
         </script>
