@@ -4,7 +4,7 @@ package main
 import (
     "fmt"
     "log"
-    "./goquery"
+    "github.com/PuerkitoBio/goquery"
     "strings"
     "net/http"
     "html/template"
@@ -18,6 +18,7 @@ const imageSelector string = "#mw-content-text table.infobox tbody tr td a img"
 func main() {
        
     http.HandleFunc("/", viewHandler)    
+    http.HandleFunc("/About.html", aboutHandler)    
     http.HandleFunc("/search", search)    
     http.HandleFunc("/static/", func(w http.ResponseWriter, r *http.Request) {
         http.ServeFile(w, r, r.URL.Path[1:])
@@ -37,6 +38,10 @@ func search(w http.ResponseWriter, r *http.Request) {
         }
 }
 
+func aboutHandler(w http.ResponseWriter, r *http.Request) {    
+    t, _ := template.ParseFiles("About.html")
+    t.Execute(w,nil)
+}
 func viewHandler(w http.ResponseWriter, r *http.Request) {    
     t, _ := template.ParseFiles("index.html")
     t.Execute(w,nil)
