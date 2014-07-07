@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="./static/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <title>About Vocab</title>
+    <style type="text/css">
+        .clean {
+            font-family: 'Open Sans', sans-serif;
+            vertical-align: middle !important;
+        }
+        .jumbotron {
+            background: white;
+        }
+        @font-face {
+            font-family: 'Open Sans';
+            font-style: normal;
+            font-weight: 300;
+            src: local('Open Sans'), local('OpenSans'), url("./static/fonts/OpenSans.woff") format('woff');
+        }
+        .p {
+            padding: 1%;
+        }
+        .m {
+            margin: 1%;
+        }
+    </style>
+</head>
+
+<body class="clean">
+    <div class="container">
+        <div class="header text-center">
+            <h2>
+                <span> <a href="./index.html"> Vocab </a></span>                
+
+            </h2>
+            <small> About Vocab </small>
+        </div>
+        <div class="container " id="results">          
+            <h3 class="lead">
+              Motivation
+            </h3>    
+            <ul class="caption">
+              <li>Ever wanted to just know what a particular word means?</li>
+              <li>Ever wanted to just get a gist of a particular term?</li>
+            </ul>
+            <p>
+                We just Google! Right?
+            </p>
+            <p>
+               <div class="lead"> Consequence </div>
+                <ul class="caption">
+                  <li>Reading more than what's needed</li>
+                  <li>Time sinks</li>
+                  <li>Getting lost in the web of The Web.</li>
+                </ul>         
+             Vocab is intented to address this problem.
+            </p>
+            <h3 class="lead"> What's Vocab </h3>
+            <p>               
+                Vocab focuses on the Zen of Browsing - Learn just what's needed for now. Just build vocabulary
+            </p>
+            <p>
+                Google for the rest when you have leasure time. 
+            </p>
+            <p>
+                Vocab focuses on intuition and cognitive ease of learning. Words, graphs and info graphics over long running hyperlinked texts.
+            <p>
+            <p>
+                Vocab is clutter less learning!
+            <p>
+        </div>
+        <footer>
+            <div class="navbar navbar navbar-fixed-bottom">
+                <div class="container">
+                    <div class="navbar-collapse collapse" id="footer-body">
+                        <ul class="nav navbar-nav">
+                            <li><a href="#">About</a>
+                            </li>
+                            <li><a href="#">Contact Us</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/javascript">
+        function search() {
+            var q = $("#search-string").val();
+            // $("#results").html(q);
+            $.get("/search?q=" + q, function (data) {
+                // $( "#results" ).html( data );
+                var results = "";
+                if (data.imageURL) {
+                    $("#img").html("<img src='" + data.imageURL + "'>");
+                }
+                for (key in data.links) {
+                    var div = " <div> <a href='" + data[key] + "' >" + key + " </a></div>"
+                    results += div;
+                }
+
+                $("#results").html(results);
+                // alert( "Load was performed." );
+            });
+        }
+
+        function reset() {
+            $("#results").html("");
+            $("#search-string").val("");
+            $("#img").html("");
+            $("#search-string").focus();
+        }
+    </script>
+    <script type="text/javascript" src="./static/js/jquery.js">
+    </script>
+    <script type="text/javascript" src="./static/js/bootstrap.min.js">
+    </script>
+</body>
+
+</html>
