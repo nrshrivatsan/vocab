@@ -15,6 +15,7 @@ const baseUrl string = "http://en.wikipedia.org"
 const searchURLPrefix string = "http://en.wikipedia.org/wiki/"
 const selector string = "#mw-content-text p a"
 const imageSelector string = "#mw-content-text table.infobox tbody tr td a img"
+const infoCardSelector string = ".infobox"
 func main() {
        
     http.HandleFunc("/", viewHandler)    
@@ -79,6 +80,17 @@ func scrape(url,selector string) (map[string]interface{}) {
             responseMap["imageURL"] = imageLink                        
         }
     });
+
+    doc.Find(infoCardSelector).Each(func(i int, s *goquery.Selection) {
+        infoCardHTML,_ := s.Html() 
+
+        // fmt.Println(s.Text())
+        if infoCardHTML != "" && responseMap["infocard"] == nil {            
+            responseMap["infocard"] = infoCardHTML                        
+        }
+    });
+
+
 
     // for k,v := range urlMap {
     //     fmt.Println(k,"->",v)

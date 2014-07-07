@@ -11,6 +11,9 @@
             	.jumbotron{
             		background: white;
             	}
+              .borderless td {
+                  border: none;
+              }
 				@font-face {
 				  font-family: 'Open Sans';
 				  font-style: normal;
@@ -28,7 +31,19 @@
     </head>
     <body class="clean">        
 		<div class="container">
-	           <div class="header text-center">			      			     
+	           <div class="header text-center">			 
+             <header class="meta-header">
+                <div class="navbar navbar navbar-top">
+                    <div class="container">
+                        <div class="navbar-collapse collapse" id="footer-body">
+                            <ul class="nav navbar-nav">                           
+                                <li><a href="./About.html">About</a></li>
+                                <li><a href="https://twitter.com/nrshrivatsan"> @Twitter </a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </header>     			     
 			        <h2>
 			        	<span> Vocab </span>
 			       		<input type="text" class="input-large m p" id="search-string" placeholder="Enter search string"> 
@@ -37,50 +52,39 @@
                 <h5 class=""> Learn just enough! </h5>
 			       	</h2>
 			    </div>
-                <div class="container row-fluid" id = "results container">
-                    <div class="container text-center col-md-3" id="img">
-                    </div> 
-                    <div class="container text-center col-md-9" id="results">
-
-                    </div>
+                <div class="container row-fluid" id = "results-container">
+                    <div class="text-center span12" id="infocard">
+                    </div>                     
                 </div>                            
-			   <footer>
-				    <div class="navbar navbar navbar-fixed-bottom">
-				        <div class="container">
-				            <div class="navbar-collapse collapse" id="footer-body">
-				                <ul class="nav navbar-nav">				                    
-				                    <li><a href="./About.html">About</a></li>
-				                    <li><a href="https://twitter.com/nrshrivatsan"> @Twitter </a></li>
-				                </ul>
-				            </div>
-				        </div>
-				    </div>
-				</footer>
+			   
 		</div>        
         <!-- Placed at the end of the document so the pages load faster -->        
         <script type="text/javascript">
          function search(){
          	var q = $("#search-string").val();
+          $("#infocard").html(""); 
+          $("#results").html(""); 
+
          	// $("#results").html(q);
             $.get( "/search?q="+q, function( data ) {
               // $( "#results" ).html( data );
               var results = "";
-              if (data.imageURL){
-                $("#img").html("<img src='"+data.imageURL+"'>");
+              if (data.infocard){
+                $("#infocard").html("<table class='table table-condensed table-responsive table-hover borderless'> "+data.infocard+"</table>");
               }
-              for (key in data.links){
-                var div =" <div> <a href='"+data[key]+"' >"+key+" </a></div>"  
-                results+=div;
-              }
+              // for (key in data.links){
+              //   var div =" <div> <a href='"+data[key]+"' >"+key+" </a></div>"  
+              //   results+=div;
+              // }
 
-              $( "#results" ).html( results);
+              // $( "#results" ).html( results);
               // alert( "Load was performed." );
             });
          }
          function reset(){
          	$("#results").html("");	
          	$("#search-string").val("");
-            $("#img").html("");	
+            $("#infocard").html("");	
          	$("#search-string").focus();	
          }
         </script>
